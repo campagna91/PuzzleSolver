@@ -1,0 +1,102 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+
+\begin{document}
+	\begingroup
+    \centering
+    \includegraphics[scale=1.5]{/Users/champ/Pictures/logo_unipd.jpg}\\
+    \vspace{3cm}
+    {\Huge Relazione}\\
+    \rule{12cm}{0.4pt}\\
+    \vspace{1cm}
+    {\Large Programmazione Concorrente e Distribuita}\\
+    \vspace{0.3cm} 
+    {Prima parte}
+    \rule{12cm}{0.4pt}\\
+    \vspace{1cm}
+    {\Large Simone Campagna 1005922}\\
+
+    \endgroup
+    \setcounter{page}{0}
+    \thispagestyle{empty}
+    \clearpage
+    \setcounter{page}{1}
+   
+
+
+\section{Introduzione}
+\subsection{Abstract}
+Il progetto si prefigge di risolvere un puzzle commissionato tramite file di input. Tale dovrà prendere in input la descrizione dei tasselli disordinati componenti il puzzle, ordinarli e restituirne il puzzle per il suo intero.
+\subsection{Scopo del documento}
+Il documento ha lo scopo di descrivere l'architettura dell'applicazione, evidenziandone le scelte architetturali, descriverne l'algoritmo di ordinamento adottato per il progetto e l'eventuale installazione di tale.
+\section{Architettura}
+L'architettura si compone di due package principali, rispettivamente \textit{puzzleIO} e \textit{puzzleObject}
+\subsection{Package}
+\subsubsection{puzzleObject}
+PuzzleObject è il package ospitante l'architettura descrivente l'oggetto puzzle. In tale è  possibile trovare una gerarchia che vede alla base una classe astratta \textit{Puzzle} conferente le principali operazioni per l'oggetto, oltre che ai tasselli componenti tale. Derivate da essa troviamo poi \textit{PuzzuleUnsolved \emph{e} PuzzleSolved} classi relative ai puzzle nello stato disordinato ed ordinato. 
+\subsubsection{puzzleIO}
+PuzzleIO è il package relativo alle operazioni di input ed output effettuate sui puzzle, potendone inizializzare il contenuto da un file di input o semplicemente scriverlo su un file di output descritto.
+\subsection{Classi}
+Come gà detto l'entità Puzzle è stata modellata con una gerarchia che vede alla base una classe astratta \textit{Puzzle} e relative classi derivate costituenti lo stato del puzzle stesso. E' stata modellata come descritto dato che così facendo si è potuto sfruttarne il polimorfismo nell'implementazione della funzione toString(), potendo rispettare le specifiche di consegna del progetto.
+\subsubsection{Puzzle}
+La classe astratta fornisce l'intelaiatura per gli oggetti di tipo puzzle mettendo a disposizione di seguenti metodi:
+\begin{itemize}
+    \item \textbf{int rows()}: restitusce il numero attuale di righe
+    \item \textbf{int columns()}: restituisce il numero di colonne attuali
+    \item \textbf{void setColumns(int c)}: setta il numero di colonne pari a c;
+    \item \textbf{void setRows(int r)}: setta il numero di righe pari a r;
+    \item \textbf{void addTile(PuzzleTile t)}: aggiunge la pedina t  ( \textit{tile} ) al puzzle attuale;
+    \item \textbf{PuzzleTile tile(int r, int c)}: restituisce la pedina posizionata alla riga r e colonna c;
+    \item \textbf{ArrayList$<$PuzzleTile$>$ tiles()}: restituisce la lista di tasselli del puzzle;
+    \item \textbf{String toString()}: metodo astratto ridefinito nelle sottoclassi conferente il layout di stampa dal progetto richiesto.
+\end{itemize}
+\subsubsection{PuzzleUnsolved}
+La classe rappresenta un puzzle non ancora risolto inizializzato da file di input. In tale infatti, essendo semplicemente un'entità di comodo, è stato solamente definito il metodo \textit{String toString()} della classe base.
+\subsubsection{PuzzleSolved}
+PuzzleSolved invece rappresenta quello che sarà il puzzle ordinato tramite l'algoritmo di ordinamento solve. Essa implementa l'interfaccia \textit{Solvable} e dunque implementa a sua volta il metodo \textit{solve()}.
+Di seguito i metodi di classe:
+\begin{itemize}
+    \item \textbf{String toString()}: come per la precedente anche \textit{PuzzleSolved} implementa la stampa però formattandola per colonne rappresentati il puzzle;
+    \item \textbf{PuzzleTile tile(int r, int c)}: rappresenta un overloading del metodo di classe base. Il perchè dell'implementazione si ritrova nell'implementazione di stampa dato che per PuzzleSolved sarà necessario stampare le pedine relative all'arraylist proprio e non quello di classe base;
+    \item \textbf{void solve(Puzzle p)}: tale è il metodo relativo al riordinamento del puzzle p passato come parametro;
+    \item \textbf{void solveFirstColumn(Puzzle p)}: è il metodo che permette l'ordinamento della prima colonna del puzzle;
+    \item \textbf{void solveRemaining(Puzzle p)}: tale metodo permette l'ordinamento dei tasselli rimanenti con la pre-condizione che almeno la prima colonna sia ordinata.
+\end{itemize}
+\subsubsection{Solveable}
+Interfaccia rappresentante oggetti di tipo risolvibile. Unico metodo in essa iscritto è \textit{void solve()}.
+\subsubsection{PuzzleTile}
+Entità rappresentante il singolo tassello di puzzle. Essa viene inizializzata con un costruttore a 6 parametri, relativi rispettivamente all'id del tassello, contenuto del tassello e confini a partire dall'alto sino a terminare al confine sinistro rappresentanti gli id dei tasselli ad esso adiacenti.
+
+In esso gli unici metodi descritti sono quelli restituenti i valori di classe e cioè:
+\begin{itemize}
+    \item \textbf{String id()}: restituente l'id del tassello;
+    \item \textbf{String top()}: restituente il confine nord;
+    \item \textbf{String right()}: restituente il confine est;
+    \item \textbf{String bottom()}: restituente il confine sud;
+    \item \textbf{String left()}: restituente il confine ovest;
+    \item \textbf{String character()}: restituente il valore letterario inscritto nel tassello.
+\end{itemize}
+\subsubsection{PuzzleReader}
+PuzzleReader è la classe responsabile della lettura da file del puzzle. Per far ciò la classe associa ad un \textit{BufferedReader} uno stream di input (\textit{InputStreamReader}) costruito da un \textit{FileInputStream}. 
+Essa legge il file di input, creando riga per riga i tasselli componenti il puzzle. E' chiaro che le dimensioni di colonna e riga sono facilmente ricavabili semplicemente controllandone i confini dal tassello descritti.
+Alla classe è passato un riferimento con il quale può settare eventuali valori del puzzle non ancora ordinato.
+\subsubsection{PuzzleWriter}
+Anche PuzzleWriter è la classe responsabile per la scrittura dei puzzle su file. In maniera più specifica per far ciò essa costruisce un buffer di lettura (\textit{BufferedWriter}) associato ad uno stream costruito anch'esso con uno stream rappresentante il file di destinazione. Fatto ciò essa richiama il metodo toString() della classe \textit{Puzzle} che per polimorfismo farà si che venga stampato il puzzle con le sue impostazioni di layout specifiche.
+\subsubsection{PuzzleSolver}
+E' la classe principale, in cui è descritto il main. Essa inizializza due riferimenti polimorfi rispettivamente unsolved ed solved, e ne inizializza il contenuto, stampandone infine lo stato.
+\section{Ordinamento}
+Per l'ordinamento si è ricorsi a due funzioni principali:
+\begin{itemize}
+    \item \textit{solveFirstColumn()};
+    \item \textit{solveRemaining()}.
+\end{itemize}
+Il primo dei due, \textit{solveFirstColumn()} non fa altro che ordinare la prima colonna del puzzle. Per farlo seleziona i tasselli aventi come pre-condizione quella di avere il confine sinistro pari a ``VUOTO'', marcatore relativo al confine non rappresentato da nessun tassello. Successivamente confronta l'eventuale tassello selezionato con un marcatore definente il tassello superiore sotto il quale incastrare il nuovo. Tale marcatore verrà sovrascritto ad ogni iterazione così da avere sempre come limite superiore il tassello appena inserito.
+
+Fatto ciò, il metodo \textit{solve() \emph{richiama} solveRemaining()} funzione per l'ordinamento dei tasselli restanti.
+Il principio di funzionamento basa la sua logica sul fatto che essendo la prima colonna già settata, basterà attaccare tanti tasselli quante son le colonne -1 aventi come confine sinistro il tassello della prima colonna precedentemente posizionata. Trovato il tassello si passa alla colonna successiva ed il ciclo si ripete, mantenendo come marcatori sinistri, i nuovi tasselli inseriti.
+\section{Compilazione ed Esecuzione}
+Per la compilazione è stato predisposto un make file eseguibile semplicemente con il comando make all'interno della root della consegna, il quale compilerà tutti i file necessari per il funzionamento lanciando automaticamente poi il programma sui file descritti dal nome '\textit{input.txt}' ed '\textit{output.txt}'. 
+
+Nel qual caso non si voglia l'esecuzione automatica del file o si voglia cambiarne i file di input o output basterà eliminare le righe 2-4 del makefile, e rilanciare il comando make; fatto ciò sarà possibile lanciare PuzzleSolver con i relativi file di input ed output.
+\end{document}

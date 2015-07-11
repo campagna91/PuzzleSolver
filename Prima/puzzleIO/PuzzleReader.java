@@ -2,34 +2,44 @@ package puzzleIO;
 
 import puzzleObject.Puzzle;
 import puzzleObject.PuzzleTile;
+
+import java.util.Arrays;
+
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
+
 import java.io.IOException;
+import java.lang.ArrayIndexOutOfBoundsException;
 
 public class PuzzleReader {
-
-	public PuzzleReader() {
-
-	}	
-	public void loadPuzzle(Puzzle puzzle, String file) {
+	
+	public void read(Puzzle puzzle, String inputFile) {
 		BufferedReader in = null;
 		int cols = 0, rows = 0;
 
 		try {
-			in = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF-8"));
+			in = new BufferedReader(new InputStreamReader(new FileInputStream(inputFile),"UTF-8"));
 			String line = null;
 			while( (line = in.readLine()) != null) {
 				String[] tiles = line.split("\\ ");
-				PuzzleTile tile = new PuzzleTile(tiles);
-				if(tile.getTop().equals("VUOTO"))
-					cols++;
-				if(tile.getLeft().equals("VUOTO"))
-					rows++;
-				puzzle.push(tile);
+
+				try {					
+					String[] tokens = line.split("\\	");
+					PuzzleTile tile = new PuzzleTile(tokens[0],tokens[1],tokens[2],tokens[3],tokens[4],tokens[5]);
+					if(tile.top().equals("VUOTO"))
+						cols++;
+					if(tile.left().equals("VUOTO"))
+						rows++;
+					puzzle.addTile(tile);
+				}
+				catch(ArrayIndexOutOfBoundsException o) {
+					System.out.println("Il puzzle di ingresso non è correttamente formattato");
+					System.exit(1);
+				}
 			}
-			puzzle.setNumCols(cols);
-			puzzle.setNumRows(rows);
+			puzzle.setColumns(cols);
+			puzzle.setRows(rows);
 		} 
 		catch(IOException e) {
 			System.out.println("Errore durante la lettura del file");
@@ -45,6 +55,5 @@ public class PuzzleReader {
 				e.printStackTrace();
 			}
 		}
-		
 	}
 }
