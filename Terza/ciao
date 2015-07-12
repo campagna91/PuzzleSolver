@@ -1,0 +1,10 @@
+#!bin/bash
+
+killall rmiregistry
+rmiregistry&
+java server/PuzzleSolver $1figo: No such file or directory
+#!bin/bash
+
+killall rmiregistry
+rmiregistry&
+java server/PuzzleSolver $1figo: No such file or directory

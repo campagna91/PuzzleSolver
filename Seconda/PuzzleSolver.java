@@ -6,14 +6,18 @@ import puzzleObject.PuzzleUnsolved;
 class PuzzleSolver {
 	public static void main(String args[]) {
 		PuzzleWriter writer = null;
+		PuzzleReader reader = null;
 		try {
-			writer = new PuzzleWriter();
 			String inputFile = args[0], outputFile = args[1];
+			writer = new PuzzleWriter();
+			reader = new PuzzleReader();
+
 			Puzzle unsolved = new PuzzleUnsolved();
-			unsolved.loadFromFile(inputFile);
+			reader.read(unsolved, inputFile);
 			writer.write(unsolved, outputFile, false);
 
-			Puzzle solved = new PuzzleSolved(unsolved);
+			Puzzle solved = new PuzzleSolved();
+			solved.solve(unsolved);
 			writer.write(solved, outputFile, true);
 		}
 		catch(ArrayIndexOutOfBoundsException ex) {

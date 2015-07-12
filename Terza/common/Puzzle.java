@@ -1,16 +1,18 @@
-package puzzleObject;
+package common;
 
-import puzzleObject.Solvable;
-import puzzleObject.PuzzleTile;
+import java.rmi.*;
+import java.rmi.server.*;
 import java.util.ArrayList;
+import java.io.Serializable;
+import common.Solvable;
+import common.PuzzleTile;
 
-public abstract class Puzzle implements Solvable{
+public abstract class Puzzle extends UnicastRemoteObject implements Serializable, Solvable {
 
 	private int rows = 0, columns = 0;
-	private PuzzleReader reader;
 	protected ArrayList<PuzzleTile> tiles = new ArrayList<PuzzleTile>();
 
-	public Puzzle() {
+	public Puzzle() throws RemoteException {
 	}
 	public int rows(){
 		return rows;
@@ -27,12 +29,12 @@ public abstract class Puzzle implements Solvable{
 	public void addTile(PuzzleTile t) {
 		tiles.add(t);
 	}
-	public PuzzleTile tile(int row, int column) {
+	protected PuzzleTile tile(int row, int column) {
 		return tiles.get(row * columns + column);
 	}
 	public ArrayList<PuzzleTile> tiles() {
 		return tiles;
 	}
-	public abstract String toString();
-	public abstract void solve(Puzzle puzzleToSolve);
+	public abstract String toString();	
+	public abstract void solve(Puzzle puzzleToSolve)  throws RemoteException;
 }

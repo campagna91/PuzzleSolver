@@ -1,7 +1,5 @@
 Prima_consegna: PuzzleSolver
-	@echo 'Esecuzione di PuzzleSolver su file input.txt ed output.txt'
-	@java PuzzleSolver input.txt output.txt
-	@echo 'Esecuzione portata a termine'
+	
 PuzzleSolver: PuzzleSolver.class
 
 PuzzleSolver.class: PuzzleSolved.class	Puzzle.class PuzzleReader.class	PuzzleWriter.class

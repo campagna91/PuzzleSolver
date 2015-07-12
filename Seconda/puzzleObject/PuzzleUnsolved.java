@@ -1,7 +1,6 @@
 package puzzleObject;
 
 import puzzleObject.Puzzle;
-import puzzleIO.*;
 
 public class PuzzleUnsolved extends Puzzle {
 

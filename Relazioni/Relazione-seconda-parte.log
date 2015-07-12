@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2015.3.14)  12 JUL 2015 00:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2015.3.14)  12 JUL 2015 00:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**Relazione-prima-parte.tex
-(./Relazione-prima-parte.tex
+**Relazione-seconda-parte.tex
+(./Relazione-seconda-parte.tex
 LaTeX2e <2014/05/01>
 Babel <3.9k> and hyphenation patterns for 78 languages loaded.
 (/usr/local/texlive/2014/texmf-dist/tex/latex/base/article.cls
@@ -272,8 +272,8 @@ Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 \Gin@req@height=\dimen103
 \Gin@req@width=\dimen104
 )
-(./Relazione-prima-parte.aux)
-\openout1 = `Relazione-prima-parte.aux'.
+(./Relazione-seconda-parte.aux)
+\openout1 = `Relazione-seconda-parte.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
 LaTeX Font Info:    ... okay on input line 5.
@@ -399,28 +399,34 @@ Overfull \hbox (0.34668pt too wide) in paragraph at lines 65--66
 la prima colonna
  []
 
-[3] [4] [5] (./Relazione-prima-parte.aux) ) 
+[3] [4] [5]
+Overfull \hbox (28.72247pt too wide) in paragraph at lines 112--113
+[]\OT1/cmr/m/n/10.95 Inoltre per l'interferenza sui dati an-che qui pos-si-amo 
+dire che l'implementazione
+ []
+
+[6] (./Relazione-seconda-parte.aux) ) 
 Here is how much of TeX's memory you used:
- 1721 strings out of 493117
- 24009 string characters out of 6135433
+ 1722 strings out of 493117
+ 24035 string characters out of 6135433
  83586 words of memory out of 5000000
- 5174 multiletter control sequences out of 15000+600000
+ 5175 multiletter control sequences out of 15000+600000
  8542 words of font info for 30 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 37i,5n,23p,703b,171s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2014/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2014/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2014/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2014/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2014/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2014/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2014/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmti10.pfb>
-Output written on Relazione-prima-parte.pdf (6 pages, 432336 bytes).
+ 37i,5n,23p,705b,143s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2014/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2014/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2014/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2014/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmr17.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmti10.pfb>
+Output written on Relazione-seconda-parte.pdf (7 pages, 433943 bytes).
 PDF statistics:
- 56 PDF objects out of 1000 (max. 8388607)
- 38 compressed objects within 1 object stream
+ 61 PDF objects out of 1000 (max. 8388607)
+ 42 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

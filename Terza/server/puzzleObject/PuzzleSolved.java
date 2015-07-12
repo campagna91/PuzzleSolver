@@ -1,12 +1,17 @@
-package puzzleObject;
+package server.puzzleObject;
 
+import java.rmi.*;
+import java.rmi.server.*;
 import java.util.ArrayList;
-import puzzleObject.Puzzle;
+import java.io.Serializable;
+import common.Puzzle;
+import common.Solvable;
+import common.PuzzleTile;
 
-public class PuzzleSolved extends Puzzle implements Solvable{
+public class PuzzleSolved extends Puzzle implements Solvable {
 	private ArrayList<PuzzleTile> tilesOrdered = new ArrayList<PuzzleTile>();
 
-	public PuzzleSolved() {
+	public PuzzleSolved() throws RemoteException {
 	}
 	public class PuzzleThread extends Thread {
 		public int row;
@@ -26,14 +31,16 @@ public class PuzzleSolved extends Puzzle implements Solvable{
 			}	
 		}
 	}
-	public void solve(Puzzle puzzle) {
-		setColumns(puzzle.columns());
-		setRows(puzzle.rows());	
-		tiles.addAll(puzzle.tiles());
-		tilesOrdered.addAll(puzzle.tiles());
+	public void solve(Puzzle puzzle)  throws RemoteException {
+		// System.out.println(puzzle);
+		// setColumns(puzzle.columns());
+		// setRows(puzzle.rows());	
+		// tiles.addAll(puzzle.tiles());
+		// tilesOrdered.addAll(puzzle.tiles());
 
-		solveFirstColumn();
-		solveRemaining();
+		// solveFirstColumn();
+		// solveRemaining();
+
 	}
 	public void solveFirstColumn() {
 		String top = "VUOTO";

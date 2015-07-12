@@ -1,10 +1,12 @@
-package puzzleObject;
+package client.puzzleObject;
 
-import puzzleObject.Puzzle;
+import java.rmi.*;
+import java.io.Serializable;
+import common.Puzzle;
 
-public class PuzzleUnsolved extends Puzzle {
+public class PuzzleUnsolved extends Puzzle implements Serializable{
 
-	public PuzzleUnsolved() {
+	public PuzzleUnsolved() throws RemoteException {
 	}
 
 	public String toString() {
@@ -17,5 +19,7 @@ public class PuzzleUnsolved extends Puzzle {
 	  }
 	  aux.append(System.getProperty("line.separator"));
 	  return aux.toString();
+	}
+	public void solve(Puzzle puzzleToSolve) {
 	}
 }

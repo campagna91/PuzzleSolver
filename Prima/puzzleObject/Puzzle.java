@@ -1,16 +1,13 @@
 package puzzleObject;
 
-import puzzleIO.*;
 import puzzleObject.Solvable;
 import puzzleObject.PuzzleTile;
 import java.util.ArrayList;
 
+public abstract class Puzzle implements Solvable{
 
-public abstract class Puzzle{
-
-	private int rows, columns;
-	private PuzzleReader reader;
-	protected ArrayList<PuzzleTile> tiles;
+	private int rows = 0, columns = 0;
+	protected ArrayList<PuzzleTile> tiles = new ArrayList<PuzzleTile>();
 
 	public Puzzle() {
 	}
@@ -35,10 +32,6 @@ public abstract class Puzzle{
 	public ArrayList<PuzzleTile> tiles() {
 		return tiles;
 	}
-	public void loadFromFile(String inputFile) {
-		tiles = new ArrayList<PuzzleTile>();
-		reader = new PuzzleReader();
-		reader.read(this, inputFile);
-	}
 	public abstract String toString();	
+	public abstract void solve(Puzzle puzzleToSolve);
 }

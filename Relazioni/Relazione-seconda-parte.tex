@@ -29,7 +29,7 @@
 \subsection{Abstract}
 Il progetto si prefigge di risolvere un puzzle commissionato tramite file di input. Tale dovrà prendere in input la descrizione dei tasselli disordinati componenti il puzzle, ordinarli e restituirne il puzzle per il suo intero.
 \subsection{Scopo del documento}
-Il documento ha lo scopo di descrivere l'architettura dell'applicazione, evidenziandone le scelte architetturali, descriverne l'algoritmo di ordinamento adottato per il progetto e l'eventuale installazione di tale.
+Il documento ha lo scopo di descrivere l'architettura dell'applicazione, evidenziandone le scelte architetturali, descriverne l'algoritmo di ordinamento adottato per il progetto e l'eventuale installazione di tale. Inoltre in tale verranno trattati le modifiche apportate alla precedente architettura relativa alla prima parte del progetto didattico.
 \section{Architettura}
 L'architettura si compone di due package principali, rispettivamente \textit{puzzleIO} e \textit{puzzleObject}
 \subsection{Package}
@@ -55,7 +55,7 @@ La classe astratta fornisce l'intelaiatura per gli oggetti di tipo puzzle metten
 \subsubsection{PuzzleUnsolved}
 La classe rappresenta un puzzle non ancora risolto inizializzato da file di input. In tale infatti, essendo semplicemente un'entità di comodo, è stato solamente definito il metodo \textit{String toString()} della classe base, mentre non è stato implementato il metodo \textit{solve(Puzzle)}; tale circostanza comunque non vieta la creazione di oggetti di tipo \textit{PuzzleSolve()} ma può creare problemi nel momento in cui si richiami il metodo clone su un oggetto di questo tipo: tale esecuzione comporterà il sollevamento di un'eccezione di tipo \textit{AbstractMethodError} dal programma non gestita data l'attuale implementazione ed uso di tale.
 \subsubsection{PuzzleSolved}
-PuzzleSolved invece rappresenta quello che sarà il puzzle ordinato tramite l'algoritmo di ordinamento solve. Anch'essa  implementa l'interfaccia \textit{Solvable} e dunque implementa a sua volta il metodo \textit{solve(Puzzle)}, ereditato dalla classe base.
+PuzzleSolved invece rappresenta quello che sarà il puzzle ordinato tramite l'algoritmo di ordinamento solve. Essa implementa l'interfaccia \textit{Solvable} e dunque implementa a sua volta il metodo \textit{solve(Puzzle)}.
 Di seguito i metodi di classe:
 \begin{itemize}
     \item \textbf{String toString()}: come per la precedente anche \textit{PuzzleSolved} implementa la stampa però formattandola per colonne rappresentati il puzzle;
@@ -64,8 +64,12 @@ Di seguito i metodi di classe:
     \item \textbf{void solveFirstColumn(Puzzle p)}: è il metodo che permette l'ordinamento della prima colonna del puzzle;
     \item \textbf{void solveRemaining(Puzzle p)}: tale metodo permette l'ordinamento dei tasselli rimanenti con la pre-condizione che almeno la prima colonna sia ordinata.
 \end{itemize}
+\subsubsection{PuzzleThread}
+Tale classe rappresenta il thread richiesto per la risoluzione del puzzle e pertanto la classe estende la classe \textit{Thread}.\\
+In essa troviamo un costruttore accettante come unico parametro la riga sulla quale il thread si dovrà concentrare.
+Pertanto, essendo la classe creata all'unico scopo di risolvere una riga del puzzle, non avrà altri metodi se non la run relativa al thread risolvente la riga del puzzle per il quale il thread è stato creato.
 \subsubsection{Solveable}
-Interfaccia rappresentante oggetti di tipo risolvibile. Unico metodo in essa iscritto è \textit{void solve(Puzzle puzzleToSolve)}.
+Interfaccia rappresentante oggetti di tipo risolvibile. Unico metodo in essa iscritto è \textit{void solve(Puzzle puzzleToResolve)}.
 \subsubsection{PuzzleTile}
 Entità rappresentante il singolo tassello di puzzle. Essa viene inizializzata con un costruttore a 6 parametri, relativi rispettivamente all'id del tassello, contenuto del tassello e confini a partire dall'alto sino a terminare al confine sinistro rappresentanti gli id dei tasselli ad esso adiacenti.
 
@@ -95,8 +99,19 @@ Per l'ordinamento si è ricorsi a due funzioni principali:
 Il primo dei due, \textit{solveFirstColumn()} non fa altro che ordinare la prima colonna del puzzle. Per farlo seleziona i tasselli aventi come pre-condizione quella di avere il confine sinistro pari a ``VUOTO'', marcatore relativo al confine non rappresentato da nessun tassello. Successivamente confronta l'eventuale tassello selezionato con un marcatore definente il tassello superiore sotto il quale incastrare il nuovo. Tale marcatore verrà sovrascritto ad ogni iterazione così da avere sempre come limite superiore il tassello appena inserito.
 
 Fatto ciò, il metodo \textit{solve(Puzzle) \emph{richiama} solveRemaining()} funzione per l'ordinamento dei tasselli restanti.
-Il principio di funzionamento basa la sua logica sul fatto che essendo la prima colonna già settata, basterà attaccare tanti tasselli quante son le colonne -1 aventi come confine sinistro il tassello della prima colonna precedentemente posizionata. Trovato il tassello si passa alla colonna successiva ed il ciclo si ripete, mantenendo come marcatori sinistri, i nuovi tasselli inseriti.
+A differenza della prima consegna, in questa vi è la necessità di creare semplicemente tanti thread concorrenti quante son le righe del puzzle; dunque il metodo non farà altro che richiamare la \textit{start()} del thread appena creato per la riga corrente.\\Tale non farà altro che eseguire la \textit{run()} del thread, la quale a differenza della precedente, si concentra semplicemente sulle colonne senza iterare per le righe dato che l'unica riga presso il quale far riferimento è definita come campo privato della classe.
+\section{Concorrenza}
+Vengono ora discusse le problematiche relative alla concorrenza:
+\begin{itemize}
+    \item Deadlock;
+    \item Starvation;
+    \item Interferenza sui dati;
+\end{itemize}
+Data l'implementazione del progetto PuzzleSolver, dobbiamo dire che in questa seconda consegna situazioni di deadlock sono impossibili dato che non è stato usato nessun costrutto di lock.
+
+Inoltre per l'interferenza sui dati anche qui possiamo dire che l'implementazione dell'algoritmo di ordinamento ha permesso di tener bene contraddistinte le aree di lavoro dei rispettivi thread, e dato che la sorgente dei dati, in questo caso il puzzle da risolvere, non muta nel tempo è stato possibile omettere eventuali lock sui dati o metodi. 
+
+Per lo starvation invece possiamo dire che i thread vengono creati tutti quanti con la stessa priorità e non essendoci come in precedenza detto lock sui dati, condizioni di attese attive sono pressoché impossibili.
 \section{Compilazione ed Esecuzione}
-Per la compilazione è stato predisposto un make file eseguibile semplicemente con il comando make all'interno della root della consegna, il quale compilerà tutti i file necessari per il funzionamento lanciando automaticamente poi il programma sui file descritti dal nome '\textit{input.txt}' ed '\textit{output.txt}'. \\
-Nel qual caso non si voglia l'esecuzione automatica del file o si voglia cambiarne i file di input o output basterà eliminare le righe 2-4 del makefile, e rilanciare il comando make; fatto ciò sarà possibile lanciare PuzzleSolver con i relativi file di input ed output.
+Per la compilazione è stato predisposto un make file eseguibile semplicemente con il comando make all'interno della root della consegna, il quale compilerà tutti i file necessari per il funzionamento. Per lanciare il programma sarà necessario eseguire l'istruzione \textit{sh puzzlesolver.sh input output} sostituendo ad input il nome del file ed output il nome presso il cui si vuole stampare i risultati.
 \end{document}
