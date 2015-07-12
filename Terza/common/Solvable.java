@@ -1,9 +1,10 @@
 package common;
 
 import java.rmi.*;
-import common.Puzzle;
+import common.PuzzleUnsolved;
+import common.PuzzleSolved;
 
 public interface Solvable extends Remote {
-		public void solve(Puzzle puzzleToSolve) throws RemoteException;
+		public PuzzleSolved solve(PuzzleUnsolved puzzleToSolve) throws RemoteException;
 
 }

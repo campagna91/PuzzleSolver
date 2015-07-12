@@ -2,11 +2,11 @@ Terza: exec
 
 exec: server common client
 
-server: serverPuzzleSolver serverPuzzleSolved
+server: serverPuzzleSolver serverSolver
 
-common: commonPuzzle commonPuzzleTile commonSolvable
+common: commonPuzzle commonPuzzleTile commonSolvable commonPuzzleSolved commonPuzzleUnsolved
 
-client: clientPuzzleSolver clientPuzzleReader clientPuzzleWriter clientPuzzleUnsolved
+client: clientPuzzleSolver clientPuzzleReader clientPuzzleWriter
 
 # Server dependencies
 
@@ -16,7 +16,9 @@ serverPuzzleSolver:
 serverPuzzleSolved:
 	@echo 'Caricamento Server-PuzzleSolved'
 	@javac server/puzzleObject/PuzzleSolved.java
-
+serverSolver:
+	@echo 'Caricamento Server-Solver'
+	@javac server/puzzleObject/Solver.java
 # Common dependecies
 
 commonPuzzle:
@@ -28,6 +30,12 @@ commonPuzzleTile:
 commonSolvable:
 	@echo 'Caricamento Common-Solvable'
 	@javac common/Solvable.java
+commonPuzzleSolved:
+	@echo 'Caricamento Common-PuzzleSolved'
+	@javac common/PuzzleSolved.java
+commonPuzzleUnsolved:
+	@echo 'Caricamento Common-PuzzleUnsolved'
+	@javac common/PuzzleUnsolved.java
 
 # Client dependencies
 
@@ -40,9 +48,6 @@ clientPuzzleReader:
 clientPuzzleWriter:
 	@echo 'Caricamento Client-PuzzleWriter'
 	@javac client/puzzleIO/PuzzleWriter.java
-clientPuzzleUnsolved:
-	@echo 'Caricamento Client-PuzzleUnsolved'
-	@javac client/puzzleObject/PuzzleUnsolved.java
 
 # Clean
 clean:
@@ -52,3 +57,4 @@ clean:
 	rm -f client/puzzleObject/*.class
 	rm -f server/*.class
 	rm -f server/puzzleObject/*class
+	rm -f common/*.class

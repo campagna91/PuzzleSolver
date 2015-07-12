@@ -3,8 +3,10 @@ package client;
 import java.rmi.*;
 import common.Solvable;
 import common.Puzzle;
-import client.puzzleIO.*;
 import common.PuzzleUnsolved;
+import common.PuzzleSolved;
+import client.puzzleIO.*;
+import java.io.Serializable;
 
 class PuzzleSolver {
 	private static final String HOST = "localhost";
@@ -17,15 +19,19 @@ class PuzzleSolver {
 			String inputFile = args[0], outputFile = args[1], serverName = args[2];
 			writer = new PuzzleWriter();
 			reader = new PuzzleReader();
+			
 			System.out.println("primo");
-			PuzzleUnsolved unsolved = new PuzzleUnsolved();
+			Puzzle solved = new PuzzleSolved();
+			Puzzle unsolved = new PuzzleUnsolved();
 			reader.read(unsolved, inputFile);
 			writer.write(unsolved, outputFile, false);
 
 			System.out.println("secondo");
 			Solvable ref = (Solvable) Naming.lookup("rmi://" + HOST + "/" + serverName);
-			ref.solve(unsolved);
-			writer.write(ref, outputFile, true);
+			solved = ref.solve((PuzzleUnsolved)unsolved);
+
+			System.out.println(solved.rows() + " X " + solved.columns() + " con size " + solved.tiles().size());
+			writer.write(solved, outputFile, true);
 			System.out.println("fine");
 		}
 		catch(ArrayIndexOutOfBoundsException e) {

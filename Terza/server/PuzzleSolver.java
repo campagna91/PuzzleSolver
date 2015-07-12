@@ -3,7 +3,8 @@ package server;
 import java.rmi.*;
 import java.rmi.server.*;
 import common.Puzzle;
-import server.puzzleObject.PuzzleSolved;
+import common.PuzzleSolved;
+import server.puzzleObject.Solver;
 import java.net.MalformedURLException;
 
 class PuzzleSolver {
@@ -13,9 +14,9 @@ class PuzzleSolver {
 		try {
 			String serverName = args[0];
 
-			Puzzle puzzle = new PuzzleSolved();
+			Solver solver = new Solver();
 			String rmiObServer = "rmi://" + HOST + "/" + serverName;
-			Naming.rebind(rmiObServer, puzzle);
+			Naming.rebind(rmiObServer, solver);
 			System.out.println("Server ready");
 		}
 		catch(ArrayIndexOutOfBoundsException ex) {

@@ -1,18 +1,16 @@
 package common;
 
-import java.rmi.*;
-import java.rmi.server.*;
 import java.util.ArrayList;
 import java.io.Serializable;
 import common.Solvable;
 import common.PuzzleTile;
 
-public abstract class Puzzle extends UnicastRemoteObject implements Serializable, Solvable {
+public abstract class Puzzle implements Serializable {
 
 	private int rows = 0, columns = 0;
 	protected ArrayList<PuzzleTile> tiles = new ArrayList<PuzzleTile>();
 
-	public Puzzle() throws RemoteException {
+	public Puzzle() {
 	}
 	public int rows(){
 		return rows;
@@ -36,5 +34,4 @@ public abstract class Puzzle extends UnicastRemoteObject implements Serializable
 		return tiles;
 	}
 	public abstract String toString();	
-	public abstract void solve(Puzzle puzzleToSolve)  throws RemoteException;
 }

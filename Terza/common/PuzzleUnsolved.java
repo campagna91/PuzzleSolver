@@ -1,12 +1,12 @@
-package client.puzzleObject;
+package common;
 
-import java.rmi.*;
 import java.io.Serializable;
 import common.Puzzle;
+import common.Solvable;
 
-public class PuzzleUnsolved extends Puzzle implements Serializable{
+public class PuzzleUnsolved extends Puzzle implements Serializable {
 
-	public PuzzleUnsolved() throws RemoteException {
+	public PuzzleUnsolved() {
 	}
 
 	public String toString() {
